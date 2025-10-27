@@ -5,7 +5,7 @@ class Database {
     // Konfigurasi database dapat dilihat di SQLYog atau HeidiSQL
     private $db_host = "localhost"; // database host
     private $db_user = "root"; // database username
-    private $db_pass = "root"; // database password
+    private $db_pass = ""; // database password
     private $db_name = "db_simplecrud"; // database name
     public $conn; // database connection
 
