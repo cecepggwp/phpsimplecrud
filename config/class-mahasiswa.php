@@ -6,25 +6,23 @@ include_once 'db-config.php';
 class Mahasiswa extends Database {
 
     // Method untuk input data mahasiswa
-    public function inputMahasiswa($data){
+    public function addTask($data){
         // Mengambil data dari parameter $data
-        $nim      = $data['nim'];
-        $nama     = $data['nama'];
-        $prodi    = $data['prodi'];
-        $alamat   = $data['alamat'];
-        $provinsi = $data['provinsi'];
-        $email    = $data['email'];
-        $telp     = $data['telp'];
-        $status   = $data['status'];
+        $name        = $data['name'];
+        $description = $data['description'];
+        $deadline    = $data['deadline'];
+        $status      = $data['status'];
+        $category_id = $data['category_id'];
+        $user_id     = $data['user_id'];
         // Menyiapkan query SQL untuk insert data menggunakan prepared statement
-        $query = "INSERT INTO tb_mahasiswa (nim_mhs, nama_mhs, prodi_mhs, alamat, provinsi, email, telp, status_mhs) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        $query = "INSERT INTO tasks (name, description, deadline, status, category_id, user_id) VALUES (?, ?, ?, ?, ?, ?)";
         $stmt = $this->conn->prepare($query);
         // Mengecek apakah statement berhasil disiapkan
         if(!$stmt){
             return false;
         }
         // Memasukkan parameter ke statement
-        $stmt->bind_param("ssssssss", $nim, $nama, $prodi, $alamat, $provinsi, $email, $telp, $status);
+        $stmt->bind_param("ssssii", $name, $description, $deadline, $status, $category_id, $user_id);
         $result = $stmt->execute();
         $stmt->close();
         // Mengembalikan hasil eksekusi query
@@ -32,45 +30,52 @@ class Mahasiswa extends Database {
     }
 
     // Method untuk mengambil semua data mahasiswa
-    public function getAllMahasiswa(){
+    public function getAllTasks($user_id){
         // Menyiapkan query SQL untuk mengambil data mahasiswa beserta prodi dan provinsi
-        $query = "SELECT id_mhs, nim_mhs, nama_mhs, nama_prodi, nama_provinsi, alamat, email, telp, status_mhs 
-                  FROM tb_mahasiswa
-                  JOIN tb_prodi ON prodi_mhs = kode_prodi
-                  JOIN tb_provinsi ON provinsi = id_provinsi";
+        $query = "SELECT t.id, t.name, t.description, t.deadline, t.status, 
+                         c.name as category_name, t.category_id
+                  FROM tasks t
+                  LEFT JOIN categories c ON t.category_id = c.id
+                  WHERE t.user_id = ?
+                  ORDER BY t.deadline ASC, t.id DESC";
         $result = $this->conn->query($query);
         // Menyiapkan array kosong untuk menyimpan data mahasiswa
-        $mahasiswa = [];
+        if(!$stmt){
+            return [];
+        }
+        $stmt->bind_param("i", $user_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $tasks = [];
         // Mengecek apakah ada data yang ditemukan
         if($result->num_rows > 0){
             // Mengambil setiap baris data dan memasukkannya ke dalam array
             while($row = $result->fetch_assoc()) {
-                $mahasiswa[] = [
-                    'id' => $row['id_mhs'],
-                    'nim' => $row['nim_mhs'],
-                    'nama' => $row['nama_mhs'],
-                    'prodi' => $row['nama_prodi'],
-                    'provinsi' => $row['nama_provinsi'],
-                    'alamat' => $row['alamat'],
-                    'email' => $row['email'],
-                    'telp' => $row['telp'],
-                    'status' => $row['status_mhs']
+                $tasks[] = [
+                    'id'          => $row['id'],
+                    'name'        => $row['name'],
+                    'description' => $row['description'],
+                    'deadline'    => $row['deadline'],
+                    'status'      => $row['status'],
+                    'category'    => $row['category_name'] ?? 'Uncategorized',
+                    'category_id' => $row['category_id']
                 ];
             }
         }
+        $stmt->close();
         // Mengembalikan array data mahasiswa
-        return $mahasiswa;
+        return $tasks;
     }
 
     // Method untuk mengambil data mahasiswa berdasarkan ID
-    public function getUpdateMahasiswa($id){
+    public function getTaskById($id, $user_id){
         // Menyiapkan query SQL untuk mengambil data mahasiswa berdasarkan ID menggunakan prepared statement
-        $query = "SELECT * FROM tb_mahasiswa WHERE id_mhs = ?";
+        $query = "SELECT * FROM tasks WHERE id = ? AND user_id = ?";
         $stmt = $this->conn->prepare($query);
         if(!$stmt){
             return false;
         }
-        $stmt->bind_param("i", $id);
+        $stmt->bind_param("ii", $id, $user_id);
         $stmt->execute();
         $result = $stmt->get_result();
         $data = false;
@@ -79,15 +84,13 @@ class Mahasiswa extends Database {
             $row = $result->fetch_assoc();
             // Menyimpan data dalam array
             $data = [
-                'id' => $row['id_mhs'],
-                'nim' => $row['nim_mhs'],
-                'nama' => $row['nama_mhs'],
-                'prodi' => $row['prodi_mhs'],
-                'alamat' => $row['alamat'],
-                'provinsi' => $row['provinsi'],
-                'email' => $row['email'],
-                'telp' => $row['telp'],
-                'status' => $row['status_mhs']
+                    'id'          => $row['id'],
+                    'name'        => $row['name'],
+                    'description' => $row['description'],
+                    'deadline'    => $row['deadline'],
+                    'status'      => $row['status'],
+                    'category'    => $row['category_name'] ?? 'Uncategorized',
+                    'category_id' => $row['category_id']
             ];
         }
         $stmt->close();
@@ -96,25 +99,23 @@ class Mahasiswa extends Database {
     }
 
     // Method untuk mengedit data mahasiswa
-    public function editMahasiswa($data){
+    public function updateTask($data){
         // Mengambil data dari parameter $data
-        $id       = $data['id'];
-        $nim      = $data['nim'];
-        $nama     = $data['nama'];
-        $prodi    = $data['prodi'];
-        $alamat   = $data['alamat'];
-        $provinsi = $data['provinsi'];
-        $email    = $data['email'];
-        $telp     = $data['telp'];
-        $status   = $data['status'];
+        $id          = $data['id'];
+        $name        = $data['name'];
+        $description = $data['description'];
+        $deadline    = $data['deadline'];
+        $status      = $data['status'];
+        $category_id = $data['category_id'];
+        $user_id     = $data['user_id'];
         // Menyiapkan query SQL untuk update data menggunakan prepared statement
-        $query = "UPDATE tb_mahasiswa SET nim_mhs = ?, nama_mhs = ?, prodi_mhs = ?, alamat = ?, provinsi = ?, email = ?, telp = ?, status_mhs = ? WHERE id_mhs = ?";
+        $query = "UPDATE tasks SET name = ?, description = ?, deadline = ?, status = ?, category_id = ? WHERE id = ? AND user_id = ?";
         $stmt = $this->conn->prepare($query);
         if(!$stmt){
             return false;
         }
         // Memasukkan parameter ke statement
-        $stmt->bind_param("ssssssssi", $nim, $nama, $prodi, $alamat, $provinsi, $email, $telp, $status, $id);
+        $stmt->bind_param("ssssiil", $name, $description, $deadline, $status, $category_id, $id, $user_id);
         $result = $stmt->execute();
         $stmt->close();
         // Mengembalikan hasil eksekusi query
@@ -122,14 +123,14 @@ class Mahasiswa extends Database {
     }
 
     // Method untuk menghapus data mahasiswa
-    public function deleteMahasiswa($id){
+    public function deleteTask($id, $user_id){
         // Menyiapkan query SQL untuk delete data menggunakan prepared statement
-        $query = "DELETE FROM tb_mahasiswa WHERE id_mhs = ?";
+        $query = "DELETE FROM tasks WHERE id = ? AND user_id = ?";
         $stmt = $this->conn->prepare($query);
         if(!$stmt){
             return false;
         }
-        $stmt->bind_param("i", $id);
+        $stmt->bind_param("ii", $id, $user_id);
         $result = $stmt->execute();
         $stmt->close();
         // Mengembalikan hasil eksekusi query
@@ -137,46 +138,80 @@ class Mahasiswa extends Database {
     }
 
     // Method untuk mencari data mahasiswa berdasarkan kata kunci
-    public function searchMahasiswa($kataKunci){
-        // Menyiapkan LIKE query untuk pencarian
-        $likeQuery = "%".$kataKunci."%";
-        // Menyiapkan query SQL untuk pencarian data mahasiswa menggunakan prepared statement
-        $query = "SELECT id_mhs, nim_mhs, nama_mhs, nama_prodi, nama_provinsi, alamat, email, telp, status_mhs 
-                  FROM tb_mahasiswa
-                  JOIN tb_prodi ON prodi_mhs = kode_prodi
-                  JOIN tb_provinsi ON provinsi = id_provinsi
-                  WHERE nim_mhs LIKE ? OR nama_mhs LIKE ?";
-        $stmt = $this->conn->prepare($query);
-        if(!$stmt){
-            // Mengembalikan array kosong jika statement gagal disiapkan
+    public function getTasksByFilter($user_id, $filter_type, $filter_value){
+        if($filter_type == 'status'){
+            $query = "SELECT t.id, t.name, t.description, t.deadline, t.status, 
+                             c.name as category_name, t.category_id
+                      FROM tasks t
+                      LEFT JOIN categories c ON t.category_id = c.id
+                      WHERE t.user_id = ? AND t.status = ?
+                      ORDER BY t.deadline ASC";
+            
+            $stmt = $this->conn->prepare($query);
+            if(!$stmt) return [];
+            $stmt->bind_param("is", $user_id, $filter_value);
+            
+        } elseif($filter_type == 'category'){
+            $query = "SELECT t.id, t.name, t.description, t.deadline, t.status, 
+                             c.name as category_name, t.category_id
+                      FROM tasks t
+                      LEFT JOIN categories c ON t.category_id = c.id
+                      WHERE t.user_id = ? AND t.category_id = ?
+                      ORDER BY t.deadline ASC";
+            
+            $stmt = $this->conn->prepare($query);
+            if(!$stmt) return [];
+            $stmt->bind_param("ii", $user_id, $filter_value);
+        } else {
             return [];
         }
-        // Memasukkan parameter ke statement
-        $stmt->bind_param("ss", $likeQuery, $likeQuery);
+        
         $stmt->execute();
         $result = $stmt->get_result();
-        // Menyiapkan array kosong untuk menyimpan data mahasiswa
-        $mahasiswa = [];
+        
+        $tasks = [];
         if($result->num_rows > 0){
-            // Mengambil setiap baris data dan memasukkannya ke dalam array
             while($row = $result->fetch_assoc()) {
-                // Menyimpan data mahasiswa dalam array
-                $mahasiswa[] = [
-                    'id' => $row['id_mhs'],
-                    'nim' => $row['nim_mhs'],
-                    'nama' => $row['nama_mhs'],
-                    'prodi' => $row['nama_prodi'],
-                    'provinsi' => $row['nama_provinsi'],
-                    'alamat' => $row['alamat'],
-                    'email' => $row['email'],
-                    'telp' => $row['telp'],
-                    'status' => $row['status_mhs']
+                $tasks[] = [
+                    'id'          => $row['id'],
+                    'name'        => $row['name'],
+                    'description' => $row['description'],
+                    'deadline'    => $row['deadline'],
+                    'status'      => $row['status'],
+                    'category'    => $row['category_name'] ?? 'Uncategorized',
+                    'category_id' => $row['category_id']
                 ];
             }
         }
         $stmt->close();
-        // Mengembalikan array data mahasiswa yang ditemukan
-        return $mahasiswa;
+        
+        return $tasks;
+    }
+
+    public function getTaskStats($user_id){
+        $query = "SELECT 
+                    COUNT(*) as total,
+                    SUM(CASE WHEN status = 'Pending' THEN 1 ELSE 0 END) as pending,
+                    SUM(CASE WHEN status = 'Completed' THEN 1 ELSE 0 END) as completed
+                  FROM tasks 
+                  WHERE user_id = ?";
+        
+        $stmt = $this->conn->prepare($query);
+        if(!$stmt){
+            return ['total' => 0, 'pending' => 0, 'completed' => 0];
+        }
+        
+        $stmt->bind_param("i", $user_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        
+        $stats = ['total' => 0, 'pending' => 0, 'completed' => 0];
+        if($result->num_rows > 0){
+            $stats = $result->fetch_assoc();
+        }
+        $stmt->close();
+        
+        return $stats;
     }
 
 }

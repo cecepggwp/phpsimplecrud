@@ -6,7 +6,7 @@ class Database {
     private $db_host = "localhost"; // database host
     private $db_user = "root"; // database username
     private $db_pass = ""; // database password
-    private $db_name = "db_simplecrud"; // database name
+    private $db_name = "todo_app"; // database name
     public $conn; // database connection
 
     // Konstruktor untuk inisialisasi koneksi database

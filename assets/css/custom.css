@@ -1,4 +1,166 @@
 /* Taruh CSS Custom Disini */
-.brand-link{
-    color: #a2cffe;
+/* =====================================================
+   🎨 COLOR PALETTE: BABY BLUE THEME
+   ===================================================== */
+
+/* Root Variables (gunakan dengan var(--nama-warna)) */
+:root {
+    /* Primary Colors */
+    --color-primary: #A7C7E7;      /* Baby Blue */
+    --color-primary-light: #D6E9FF;
+    --color-primary-dark: #6BA6D8;
+  
+    /* Accent Colors */
+    --color-success: #3BB273;      /* Green Accent */
+    --color-warning: #FFC857;      /* Yellow Accent */
+  
+    /* Neutral Colors */
+    --color-bg: #F9FBFD;           /* Page background */
+    --color-text: #2E3A59;         /* Main text color */
+    --color-border: #D0E2F2;       /* Divider / border */
+    --color-hover-blue: #1E88E5;   /* Hover for blue buttons */
+  }
+  
+  /* =====================================================
+     🌐 GLOBAL STYLES
+     ===================================================== */
+  
+  body {
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    font-family: 'Segoe UI', sans-serif;
+  }
+  
+  /* Sidebar */
+  .sidebar {
+    background-color: var(--color-primary);
+    color: #fff;
+  }
+  
+  .sidebar a {
+    color: #fff;
+    transition: background 0.3s, color 0.3s;
+  }
+  
+  .sidebar a:hover {
+    background-color: var(--color-primary-dark);
+    color: #fff;
+  }
+  
+  /* Navbar */
+  .navbar {
+    background-color: var(--color-primary-light);
+    border-bottom: 1px solid var(--color-border);
+  }
+  
+  /* Cards / Boxes */
+  .card {
+    background-color: #fff;
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  }
+  
+  /* Buttons */
+  .btn {
+    border-radius: 6px;
+    padding: 8px 16px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+  }
+  
+  .btn-primary {
+    background-color: var(--color-primary-dark);
+    color: #fff;
+    border: none;
+  }
+  
+  .btn-primary:hover {
+    background-color: var(--color-hover-blue);
+  }
+  
+  .btn-success {
+    background-color: var(--color-success);
+    color: #fff;
+    border: none;
+  }
+  
+  .btn-success:hover {
+    background-color: #2e8b5c;
+  }
+  
+  .btn-warning {
+    background-color: var(--color-warning);
+    color: #000;
+    border: none;
+  }
+  
+  .btn-warning:hover {
+    background-color: #e6b24b;
+  }
+  
+  /* Headings */
+  h1, h2, h3, h4, h5 {
+    color: var(--color-text);
+    font-weight: 600;
+  }
+  
+  /* Links */
+  a {
+    color: var(--color-primary-dark);
+    text-decoration: none;
+  }
+  
+  a:hover {
+    color: var(--color-hover-blue);
+    text-decoration: underline;
+  }
+  
+  /* Footer */
+  .footer {
+    text-align: center;
+    padding: 10px;
+    color: var(--color-text);
+    font-size: 14px;
+    border-top: 1px solid var(--color-border);
+    background-color: var(--color-primary-light);
+  }
+  
+  /* Alerts or Info Box */
+  .alert {
+    background-color: var(--color-primary-light);
+    border-left: 4px solid var(--color-primary-dark);
+    color: var(--color-text);
+    padding: 12px 16px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+  }
+  
+  /* =====================================================
+     ✨ Optional: Smooth Transitions
+     ===================================================== */
+  
+  * {
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+  }
+
+.bg-body-secondary {
+    background-color: #A7C7E7!important;
+}
+
+.nav-header {
+    color: #202020!important;
+}
+
+p {
+    color: #202020!important;
+}
+
+.sidebar-brand
+.brand-text:hover{
+    color:#F9FBFD
+}
+
+.bg-body {
+    background-color: #A7C7E7;
 }

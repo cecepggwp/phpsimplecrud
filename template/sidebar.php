@@ -1,8 +1,9 @@
-<aside class="app-sidebar bg-body-secondary shadow" data-bs-theme="dark">
+
+<aside class="app-sidebar bg-body-secondary shadow" >
     <div class="sidebar-brand">
         <a href="index.php" class="brand-link">
-            <img src="assets/img/logo.png" alt="AdminLTE Logo" class="brand-image opacity-75 shadow" />
-            <span class="brand-text fw-light">To-Do List</span>
+            <img src="assets/img/logo.png" alt="AdminLTE Logo" class="brand-image" />
+            <span class="brand-text">To-Do List</span>
         </a>
     </div>
 
@@ -37,7 +38,7 @@
                 <li class="nav-header">MASTER DATA</li>
                 <li class="nav-item">
                     <a href="master-prodi-list.php" class="nav-link">
-                        <i class="nav-icon bi bi-building"></i>
+                        <i class="nav-icon bi bi-people-fill"></i>
                         <p>User</p>
                     </a>
                 </li>
