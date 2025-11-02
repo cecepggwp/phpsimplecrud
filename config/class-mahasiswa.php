@@ -8,21 +8,19 @@ class Mahasiswa extends Database {
     // Method untuk input data mahasiswa
     public function addTask($data){
         // Mengambil data dari parameter $data
-        $name        = $data['name'];
-        $description = $data['description'];
-        $deadline    = $data['deadline'];
-        $status      = $data['status'];
-        $category_id = $data['category_id'];
-        $user_id     = $data['user_id'];
+        $name        = $data['task_name'];
+        $description = $data['task_deskripsi'];
+        $deadline    = $data['task_deadline'];
+        $category_id = $data['task_category'];
         // Menyiapkan query SQL untuk insert data menggunakan prepared statement
-        $query = "INSERT INTO tasks (name, description, deadline, status, category_id, user_id) VALUES (?, ?, ?, ?, ?, ?)";
+        $query = "INSERT INTO tasks (name, description, deadline, category_id) VALUES (?, ?, ?, ?)";
         $stmt = $this->conn->prepare($query);
         // Mengecek apakah statement berhasil disiapkan
         if(!$stmt){
             return false;
         }
         // Memasukkan parameter ke statement
-        $stmt->bind_param("ssssii", $name, $description, $deadline, $status, $category_id, $user_id);
+        $stmt->bind_param("sssi", $name, $description, $deadline, $category_id);
         $result = $stmt->execute();
         $stmt->close();
         // Mengembalikan hasil eksekusi query
@@ -30,20 +28,18 @@ class Mahasiswa extends Database {
     }
 
     // Method untuk mengambil semua data mahasiswa
-    public function getAllTasks($user_id){
+    public function getAllTasks(){
         // Menyiapkan query SQL untuk mengambil data mahasiswa beserta prodi dan provinsi
         $query = "SELECT t.id, t.name, t.description, t.deadline, t.status, 
                          c.name as category_name, t.category_id
                   FROM tasks t
                   LEFT JOIN categories c ON t.category_id = c.id
-                  WHERE t.user_id = ?
                   ORDER BY t.deadline ASC, t.id DESC";
-        $result = $this->conn->query($query);
         // Menyiapkan array kosong untuk menyimpan data mahasiswa
+        $stmt = $this->conn->prepare($query);
         if(!$stmt){
             return [];
         }
-        $stmt->bind_param("i", $user_id);
         $stmt->execute();
         $result = $stmt->get_result();
         $tasks = [];
@@ -109,13 +105,13 @@ class Mahasiswa extends Database {
         $category_id = $data['category_id'];
         $user_id     = $data['user_id'];
         // Menyiapkan query SQL untuk update data menggunakan prepared statement
-        $query = "UPDATE tasks SET name = ?, description = ?, deadline = ?, status = ?, category_id = ? WHERE id = ? AND user_id = ?";
+        $query = "UPDATE tasks SET name = ?, description = ?, deadline = ?, status = ?, category_id = ? WHERE id = ?";
         $stmt = $this->conn->prepare($query);
         if(!$stmt){
             return false;
         }
         // Memasukkan parameter ke statement
-        $stmt->bind_param("ssssiil", $name, $description, $deadline, $status, $category_id, $id, $user_id);
+        $stmt->bind_param("ssssii", $name, $description, $deadline, $status, $category_id, $id);
         $result = $stmt->execute();
         $stmt->close();
         // Mengembalikan hasil eksekusi query
@@ -188,20 +184,18 @@ class Mahasiswa extends Database {
         return $tasks;
     }
 
-    public function getTaskStats($user_id){
+    public function getTaskStats(){
         $query = "SELECT 
                     COUNT(*) as total,
                     SUM(CASE WHEN status = 'Pending' THEN 1 ELSE 0 END) as pending,
                     SUM(CASE WHEN status = 'Completed' THEN 1 ELSE 0 END) as completed
-                  FROM tasks 
-                  WHERE user_id = ?";
+                  FROM tasks";
         
         $stmt = $this->conn->prepare($query);
         if(!$stmt){
             return ['total' => 0, 'pending' => 0, 'completed' => 0];
         }
         
-        $stmt->bind_param("i", $user_id);
         $stmt->execute();
         $result = $stmt->get_result();
         

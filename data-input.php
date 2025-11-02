@@ -88,28 +88,8 @@ if(isset($_GET['status'])){
                                                 </select>
                                             </div>
                                             <div class="mb-3">
-                                                <label for="users" class="form-label">Menugaskan Kepada</label>
-                                                <select class="form-select" id="users" name="users" required>
-                                                    <option value="" selected disabled>Pilih User</option>
-                                                    <?php
-                                                    // Iterasi daftar provinsi dan menampilkannya sebagai opsi dalam dropdown
-                                                    foreach ($usersList as $users){
-                                                        echo '<option value="'.$users['id'].'">'.$users['name'].'</option>';
-                                                    }
-                                                    ?>
-                                                </select>
-                                            </div>
-                                            <div class="mb-3">
-                                                <label for="status" class="form-label">Status</label>
-                                                <select class="form-select" id="status" name="status" required>
-                                                    <option value="" selected disabled>Pilih Status</option>
-                                                    <?php 
-                                                    // Iterasi daftar status mahasiswa dan menampilkannya sebagai opsi dalam dropdown
-                                                    foreach ($statusList as $status){
-                                                        echo '<option value="'.$status['value'].'">'.$status['name'].'</option>';
-                                                    }
-                                                    ?>
-                                                </select>
+                                                <label for="deadline" class="form-label">Deadline</label>
+                                                <input type="date" class="form-control" id="deadline" name="deadline" placeholder="Masukkan Nama Tugas Baru.." required>
                                             </div>
                                         </div>
 									    <div class="card-footer">

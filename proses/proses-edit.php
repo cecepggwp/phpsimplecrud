@@ -6,18 +6,14 @@ include_once '../config/class-mahasiswa.php';
 $mahasiswa = new Mahasiswa();
 // Mengambil data mahasiswa dari form edit menggunakan metode POST dan menyimpannya dalam array
 $dataMahasiswa = [
-    'id' => $_POST['id'],
-    'nim' => $_POST['nim'],
-    'nama' => $_POST['nama'],
-    'prodi' => $_POST['prodi'],
-    'alamat' => $_POST['alamat'],
-    'provinsi' => $_POST['provinsi'],
-    'email' => $_POST['email'],
-    'telp' => $_POST['telp'],
-    'status' => $_POST['status']
+    'name' => $_POST['name'],
+    'description' => $_POST['deskripsi'],
+    'deadline' => $_POST['deadline'],
+    'category_name' => $_POST['category'],
+    'status' => $_POST['status'],
 ];
 // Memanggil method editMahasiswa untuk mengupdate data mahasiswa dengan parameter array $dataMahasiswa
-$edit = $mahasiswa->editMahasiswa($dataMahasiswa);
+$edit = $mahasiswa->updateTask($dataMahasiswa);
 // Mengecek apakah proses edit berhasil atau tidak - true/false
 if($edit){
     // Jika berhasil, redirect ke halaman data-list.php dengan status editsuccess
