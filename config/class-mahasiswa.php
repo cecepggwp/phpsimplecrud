@@ -31,10 +31,10 @@ class Mahasiswa extends Database {
     public function getAllTasks(){
         // Menyiapkan query SQL untuk mengambil data mahasiswa beserta prodi dan provinsi
         $query = "SELECT t.id, t.name, t.description, t.deadline, t.status, 
-                         c.name as category_name, t.category_id
+                         c.name AS category_name, t.category_id
                   FROM tasks t
                   LEFT JOIN categories c ON t.category_id = c.id
-                  ORDER BY t.deadline ASC, t.id DESC";
+                  ORDER BY t.status ASC, t.deadline ASC, t.id DESC";
         // Menyiapkan array kosong untuk menyimpan data mahasiswa
         $stmt = $this->conn->prepare($query);
         if(!$stmt){
