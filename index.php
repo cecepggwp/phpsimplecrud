@@ -53,7 +53,7 @@
 										<p>Halo user! Ini adalah aplikasi To-Do List! Dimana kalian bisa mengecek, mengatur, dan menambahkan tugas sehari hari kalian! Ini cocok buat kalian yang pengen mengatur waktu dan jadwal keseharian kalian!</p>
 										<a href="data-input.php" class="btn btn-primary btn-lg"><i class="bi bi-clipboard-data-fill"></i> Input Tugas Baru</a>
 										<a href="data-list.php" class="btn btn-success btn-lg"><i class="bi bi-card-list"></i> Lihat Daftar Tugas Kamu</a>
-										<a href="data-search.php" class="btn btn-warning btn-lg"><i class="bi bi-search-heart-fill"></i> Cari Tugas Kamu</a>
+										<!-- <a href="data-search.php" class="btn btn-warning btn-lg"><i class="bi bi-search-heart-fill"></i> Cari Tugas Kamu</a> -->
 									</div>
 
 								</div>
