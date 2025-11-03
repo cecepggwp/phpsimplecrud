@@ -9,9 +9,9 @@ $categoryList = $master->getCategories();
 // Mengambil daftar provinsi
 $usernameList = $master->getUsername();
 // Mengambil daftar status mahasiswa
-$statusList = $mahasiswa->getTaskStats();
+$statusList = $master->getStatus();
 // Mengambil data mahasiswa yang akan diedit berdasarkan id dari parameter GET
-$dataMahasiswa = $mahasiswa->getAllTasks($_GET['id']);
+$dataMahasiswa = $mahasiswa->getTaskById($_GET['id']);
 if(isset($_GET['status'])){
     if($_GET['status'] == 'failed'){
         echo "<script>alert('Gagal mengubah data mahasiswa. Silakan coba lagi.');</script>";
@@ -88,17 +88,18 @@ if(isset($_GET['status'])){
                                                     <option value="" selected disabled>Pilih Kategori Tugasmu</option>
                                                     <?php 
                                                     // Iterasi daftar program studi dan menandai yang sesuai dengan data mahasiswa yang dipilih
-                                                    foreach ($categoriesList as $category){
+                                                    foreach ($categoryList as $category){
                                                         // Menginisialisasi variabel kosong untuk menandai opsi yang dipilih
-                                                        $selectedProdi = "";
+                                                        $selectedcategory = "";
                                                         // Mengecek apakah program studi saat ini sesuai dengan data mahasiswa
-                                                        if($dataMahasiswa['category'] == $category['id']){
+                                                        if($dataMahasiswa['category_id'] == $category['id']){
                                                             // Jika sesuai, tandai sebagai opsi yang dipilih
-                                                            $selectedProdi = "selected";
+                                                            $selectedcategory = "selected";
                                                         }
                                                         // Menampilkan opsi program studi dengan penanda yang sesuai
-                                                        echo '<option value="'.$category['id'].'">'.$category['name'].'</option>';
+                                                        echo '<option value="'.$category['id'].'" '.$selectedcategory.'>'.$category['name'].'</option>';
                                                     }
+                                                    
                                                     ?>
                                                 </select>
                                             </div>
@@ -117,7 +118,7 @@ if(isset($_GET['status'])){
                                                             $selectedStatus = "selected";
                                                         }
                                                         // Menampilkan opsi status dengan penanda yang sesuai
-                                                        echo '<option value="'.$status['value'].'">'.$status['name'].'</option>';
+                                                        echo '<option value="'.$status['value'].'" '.$selectedStatus.'>'.$status['name'].'</option>';
                                                     }
                                                     ?>
                                                 </select>

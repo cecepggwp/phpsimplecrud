@@ -7,7 +7,7 @@ $mahasiswa = new Mahasiswa();
 // Mengambil id mahasiswa dari parameter GET
 $id = $_GET['id'];
 // Memanggil method deleteMahasiswa untuk menghapus data mahasiswa berdasarkan id
-$delete = $mahasiswa->deleteMahasiswa($id);
+$delete = $mahasiswa->deleteTask($id);
 // Mengecek apakah proses delete berhasil atau tidak - true/false
 if($delete){
     // Jika berhasil, redirect ke halaman data-list.php dengan status deletesuccess

@@ -29,13 +29,13 @@
                         <p>Lihat Daftar Tugas Kamu</p>
                     </a>
                 </li>
-                <li class="nav-item">
+                <!-- <li class="nav-item">
                     <a href="data-search.php" class="nav-link">
                         <i class="nav-icon bi bi-search-heart-fill"></i>
                         <p>Cari Tugas Kamu</p>
                     </a>
-                </li>
-                <li class="nav-header">MASTER DATA</li>
+                </li> -->
+                <!-- <li class="nav-header">MASTER DATA</li>
                 <li class="nav-item">
                     <a href="master-prodi-list.php" class="nav-link">
                         <i class="nav-icon bi bi-people-fill"></i>
@@ -50,6 +50,6 @@
                 </li>
             </ul>
         </nav>
-    </div>
+    </div> -->
 
 </aside>

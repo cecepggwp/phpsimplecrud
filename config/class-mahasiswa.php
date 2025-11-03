@@ -8,10 +8,10 @@ class Mahasiswa extends Database {
     // Method untuk input data mahasiswa
     public function addTask($data){
         // Mengambil data dari parameter $data
-        $name        = $data['task_name'];
-        $description = $data['task_deskripsi'];
-        $deadline    = $data['task_deadline'];
-        $category_id = $data['task_category'];
+        $name        = $data['name'];
+        $description = $data['deskripsi'];
+        $deadline    = $data['deadline'];
+        $category_id = $data['category'];
         // Menyiapkan query SQL untuk insert data menggunakan prepared statement
         $query = "INSERT INTO tasks (name, description, deadline, category_id) VALUES (?, ?, ?, ?)";
         $stmt = $this->conn->prepare($query);
@@ -64,14 +64,14 @@ class Mahasiswa extends Database {
     }
 
     // Method untuk mengambil data mahasiswa berdasarkan ID
-    public function getTaskById($id, $user_id){
+    public function getTaskById($id){
         // Menyiapkan query SQL untuk mengambil data mahasiswa berdasarkan ID menggunakan prepared statement
-        $query = "SELECT * FROM tasks WHERE id = ? AND user_id = ?";
+        $query = "SELECT * FROM tasks WHERE id = ?";
         $stmt = $this->conn->prepare($query);
         if(!$stmt){
             return false;
         }
-        $stmt->bind_param("ii", $id, $user_id);
+        $stmt->bind_param("i", $id);
         $stmt->execute();
         $result = $stmt->get_result();
         $data = false;
@@ -102,8 +102,9 @@ class Mahasiswa extends Database {
         $description = $data['description'];
         $deadline    = $data['deadline'];
         $status      = $data['status'];
-        $category_id = $data['category_id'];
-        $user_id     = $data['user_id'];
+        $category_id = $data['category'];      // ← UBAH: dari 'category_id' ke 'category'
+        // $user_id  = $data['user_id'];       // ← HAPUS: tidak digunakan
+        
         // Menyiapkan query SQL untuk update data menggunakan prepared statement
         $query = "UPDATE tasks SET name = ?, description = ?, deadline = ?, status = ?, category_id = ? WHERE id = ?";
         $stmt = $this->conn->prepare($query);
@@ -111,7 +112,7 @@ class Mahasiswa extends Database {
             return false;
         }
         // Memasukkan parameter ke statement
-        $stmt->bind_param("ssssii", $name, $description, $deadline, $status, $category_id, $id);
+        $stmt->bind_param("ssssii", $name, $description, $deadline, $status, $category_id, $id);  // ← UBAH: dari "ssssii" ke "sssisi"
         $result = $stmt->execute();
         $stmt->close();
         // Mengembalikan hasil eksekusi query
@@ -119,14 +120,14 @@ class Mahasiswa extends Database {
     }
 
     // Method untuk menghapus data mahasiswa
-    public function deleteTask($id, $user_id){
+    public function deleteTask($id){
         // Menyiapkan query SQL untuk delete data menggunakan prepared statement
-        $query = "DELETE FROM tasks WHERE id = ? AND user_id = ?";
+        $query = "DELETE FROM tasks WHERE id = ?";
         $stmt = $this->conn->prepare($query);
         if(!$stmt){
             return false;
         }
-        $stmt->bind_param("ii", $id, $user_id);
+        $stmt->bind_param("i", $id);
         $result = $stmt->execute();
         $stmt->close();
         // Mengembalikan hasil eksekusi query

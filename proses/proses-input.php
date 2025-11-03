@@ -6,10 +6,10 @@ include '../config/class-mahasiswa.php';
 $tasklist = new Mahasiswa();
 // Mengambil data mahasiswa dari form input menggunakan metode POST dan menyimpannya dalam array
 $datatasklist = [
-    'task_name' => $_POST['name'],
-    'task_deskripsi' => $_POST['deskripsi'],
-    'task_deadline' => $_POST['deadline'],
-    'task_category' => $_POST['category'],
+    'name' => $_POST['name'],
+    'deskripsi' => $_POST['deskripsi'],
+    'deadline' => $_POST['deadline'],
+    'category' => $_POST['category'],
 ];
 // Memanggil method inputMahasiswa untuk memasukkan data mahasiswa dengan parameter array $dataMahasiswa
 $input = $tasklist->addTask($datatasklist);
