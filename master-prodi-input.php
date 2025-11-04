@@ -28,12 +28,12 @@ if(isset($_GET['status'])){
 					<div class="container-fluid">
 						<div class="row">
 							<div class="col-sm-6">
-								<h3 class="mb-0">Input Program Studi</h3>
+								<h3 class="mb-0">Input Kategori Tugas Baru</h3>
 							</div>
 							<div class="col-sm-6">
 								<ol class="breadcrumb float-sm-end">
 									<li class="breadcrumb-item"><a href="index.php">Beranda</a></li>
-									<li class="breadcrumb-item active" aria-current="page">Input Prodi</li>
+									<li class="breadcrumb-item active" aria-current="page">Input Kategori Tugas Baru</li>
 								</ol>
 							</div>
 						</div>
@@ -46,7 +46,7 @@ if(isset($_GET['status'])){
 							<div class="col-12">
 								<div class="card">
 									<div class="card-header">
-										<h3 class="card-title">Formulir Program Studi</h3>
+										<h3 class="card-title">Formulir Kategori Tugas Baru</h3>
 										<div class="card-tools">
 											<button type="button" class="btn btn-tool" data-lte-toggle="card-collapse" title="Collapse">
 												<i data-lte-icon="expand" class="bi bi-plus-lg"></i>
@@ -57,21 +57,17 @@ if(isset($_GET['status'])){
 											</button>
 										</div>
 									</div>
-                                    <form action="proses/proses-prodi.php?aksi=inputprodi" method="POST">
+                                    <form action="proses/proses-prodi.php?aksi=inputkategori" method="POST">
 									    <div class="card-body">
-                                            <div class="mb-3">
-                                                <label for="nama" class="form-label">Kode Program</label>
-                                                <input type="text" class="form-control" id="kode" name="kode" placeholder="Masukkan Kode Program Studi" required>
-                                            </div>
 											<div class="mb-3">
-												<label for="nama" class="form-label">Nama Program Studi</label>
-												<input type="text" class="form-control" id="nama" name="nama" placeholder="Masukkan Nama Program Studi" required>
+												<label for="name" class="form-label">Jenis Kategori Tugas Baru</label>
+												<input type="text" class="form-control" id="name" name="name" placeholder="Masukkan Jenis Kategori Tugas Baru..." required>
 											</div>
                                         </div>
 									    <div class="card-footer">
                                             <button type="button" class="btn btn-danger me-2 float-start" onclick="window.location.href='master-prodi-list.php'">Batal</button>
                                             <button type="reset" class="btn btn-secondary me-2 float-start">Reset</button>
-                                            <button type="submit" class="btn btn-primary float-end">Submit</button>
+                                            <button type="submit" class="btn btn-primary float-end">Tambahkan</button>
                                         </div>
                                     </form>
 								</div>

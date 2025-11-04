@@ -35,21 +35,21 @@
                         <p>Cari Tugas Kamu</p>
                     </a>
                 </li> -->
-                <!-- <li class="nav-header">MASTER DATA</li>
+                <li class="nav-header">MASTER DATA</li>
                 <li class="nav-item">
                     <a href="master-prodi-list.php" class="nav-link">
                         <i class="nav-icon bi bi-people-fill"></i>
-                        <p>User</p>
+                        <p>Kategori Tugas Kamu</p>
                     </a>
                 </li>
-                <li class="nav-item">
+                <!-- <li class="nav-item">
                     <a href="master-provinsi-list.php" class="nav-link">
                         <i class="nav-icon bi bi-briefcase-fill"></i>
                         <p>Tugas</p>
                     </a>
-                </li>
+                </li> -->
             </ul>
         </nav>
-    </div> -->
+    </div> 
 
 </aside>

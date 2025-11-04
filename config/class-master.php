@@ -40,14 +40,13 @@ class MasterData extends Database {
 
     // Method untuk input data program studi
     public function inputCategories($data){
-        $id = $data['id'];
         $name = $data['name'];
-        $query = "INSERT INTO categories (id, name,) VALUES (?, ?)";
+        $query = "INSERT INTO categories (name) VALUES (?)";
         $stmt = $this->conn->prepare($query);
         if(!$stmt){
             return false;
         }
-        $stmt->bind_param("ss", $id, $name);
+        $stmt->bind_param("s", $name);
         $result = $stmt->execute();
         $stmt->close();
         return $result;
@@ -84,7 +83,7 @@ class MasterData extends Database {
         if(!$stmt){
             return false;
         }
-        $stmt->bind_param("is", $id, $name);
+        $stmt->bind_param("si", $name, $id);
         $result = $stmt->execute();
         $stmt->close();
         return $result;

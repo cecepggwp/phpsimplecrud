@@ -76,8 +76,8 @@ $dataMahasiswa = $mahasiswa->getAllTasks();
 													<th>Deskripsi</th>
 													<th>Deadline</th>
 													<th>Kategori</th>
-													<th>Dibuat</th>
 													<th class="text-center">Status</th>
+													<th class="text-center">Aksi</th>
 												</tr>
 											</thead>
 											<tbody>
