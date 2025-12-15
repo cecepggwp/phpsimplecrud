@@ -1,7 +1,7 @@
 
 <aside class="app-sidebar bg-body-secondary shadow" >
     <div class="sidebar-brand">
-        <a href="index.php" class="brand-link">
+        <a href="home.php" class="brand-link">
             <img src="assets/img/logo.png" alt="AdminLTE Logo" class="brand-image" />
             <span class="brand-text">To-Do List</span>
         </a>
@@ -12,7 +12,7 @@
             <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" role="navigation" aria-label="Main navigation" data-accordion="false" id="navigation">
                 <li class="nav-header">APLIKASI</li>
                 <li class="nav-item">
-                    <a href="index.php" class="nav-link">
+                    <a href="home.php" class="nav-link">
                         <i class="nav-icon bi bi-house-door-fill"></i>
                         <p>Beranda</p>
                     </a>

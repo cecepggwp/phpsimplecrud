@@ -1,74 +1,79 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-	<head>
-		<?php include 'template/header.php'; // Menyertakan header template ?>
-	</head>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AdminLTE 3 | Log in (v2)</title>
 
-	<body class="layout-fixed fixed-header fixed-footer sidebar-expand-lg sidebar-open bg-body-tertiary">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <link rel="stylesheet" href="AdminLTE-3.2.0/plugins/fontawesome-free/css/all.min.css">
+  <link rel="stylesheet" href="AdminLTE-3.2.0/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+  <link rel="stylesheet" href="AdminLTE-3.2.0/dist/css/adminlte.min.css">
+</head>
+<body class="hold-transition login-page">
+<div class="login-box">
+  <div class="card card-outline card-primary">
+    <div class="card-header text-center">
+      <a href="../../index2.html" class="h1"><b>Mind</b>Mapel</a>
+    </div>
+    <div class="card-body">
+      <p class="login-box-msg">Login Untuk Memulai!</p>
 
-		<div class="app-wrapper">
+      <?php 
+    if (isset($_GET['pesan'])) {
+        $pesan = $_GET['pesan'];
+        $alert_style = 'alert alert-danger';
+        $message = '';
+        
+        if ($pesan == "register_success") {
+            // Jika sukses, ganti style menjadi hijau (alert-success)
+            $alert_style = 'alert alert-success';
+            $message = 'Register Berhasil! Silakan masuk dengan akun Anda.';
+        } else if ($pesan == "username_salah" || $pesan == "password_salah" || $pesan == "gagal") {
+            // Pesan error lama (tetap merah)
+            $message = 'Username atau password yang Anda masukkan salah.';
+        }
 
-			<?php include 'template/navbar.php'; // Menyertakan navbar template ?>
+        if (!empty($message)) {
+            echo "<div class='$alert_style' role='alert'>$message</div>";
+        }
+    }
+    ?>
+      <form action="config/auth.php" method="post">
+        <div class="input-group mb-3">
+          <input type="text" class="form-control" placeholder="Username" name="username">
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas fa-user"></span>
+            </div>
+          </div>
+        </div>
+        <div class="input-group mb-3">
+          <input type="password" class="form-control" placeholder="Password" name="password">
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas fa-lock"></span>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-4">
+            <button type="submit" class="btn btn-primary btn-block">Login</button>
+          </div>
+          </div>
+      </form>
 
-			<?php include 'template/sidebar.php'; // Menyertakan sidebar template ?>
-
-			<main class="app-main">
-
-				<div class="app-content-header">
-					<div class="container-fluid">
-						<div class="row">
-							<div class="col-sm-6">
-								<h3 class="mb-0">Aplikasi To-Do List</h3>
-							</div>
-							<div class="col-sm-6">
-								<ol class="breadcrumb float-sm-end">
-									<li class="breadcrumb-item"><a href="index.php">Beranda</a></li>
-									<li class="breadcrumb-item active" aria-current="page">Beranda</li>
-								</ol>
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<div class="app-content">
-					<div class="container-fluid">
-						<div class="row">
-							<div class="col-12">
-								<div class="card">
-
-									<div class="card-header">
-										<h3 class="card-title">Selamat Datang!</h3>
-										<div class="card-tools">
-											<button type="button" class="btn btn-tool" data-lte-toggle="card-collapse" title="Collapse">
-												<i data-lte-icon="expand" class="bi bi-plus-lg"></i>
-												<i data-lte-icon="collapse" class="bi bi-dash-lg"></i>
-											</button>
-											<button type="button" class="btn btn-tool" data-lte-toggle="card-remove" title="Remove">
-												<i class="bi bi-x-lg"></i>
-											</button>
-										</div>
-									</div>
-
-									<div class="card-body">
-										<p>Halo user! Ini adalah aplikasi To-Do List! Dimana kalian bisa mengecek, mengatur, dan menambahkan tugas sehari hari kalian! Ini cocok buat kalian yang pengen mengatur waktu dan jadwal keseharian kalian!</p>
-										<a href="data-input.php" class="btn btn-primary btn-lg"><i class="bi bi-clipboard-data-fill"></i> Input Tugas Baru</a>
-										<a href="data-list.php" class="btn btn-success btn-lg"><i class="bi bi-card-list"></i> Lihat Daftar Tugas Kamu</a>
-										<!-- <a href="data-search.php" class="btn btn-warning btn-lg"><i class="bi bi-search-heart-fill"></i> Cari Tugas Kamu</a> -->
-									</div>
-
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-
-			</main>
-
-			<?php include 'template/footer.php'; // Menyertakan footer template ?>
-
-		</div>
-		
-		<?php include 'template/script.php'; // Menyertakan script template ?>
-
-	</body>
+      <!-- <p class="mb-1">
+        <a href="forgot-password.html">I forgot my password</a>
+      </p> -->
+      <p class="mb-0">
+        <a href="register.php" class="text-center">Register a new membership</a>
+      </p>
+    </div>
+    </div>
+  </div>
+<script src="../../plugins/jquery/jquery.min.js"></script>
+<script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="../../dist/js/adminlte.min.js"></script>
+</body>
 </html>

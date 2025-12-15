@@ -5,7 +5,7 @@ $master = new MasterData();
 // Mengambil daftar program studi, provinsi, dan status mahasiswa
 $categoriesList = $master->getCategories();
 // Mengambil daftar provinsi
-$usersList = $master->getUsername();
+/* $usersList = $master->getUsername(); */
 // Mengambil daftar status mahasiswa
 $statusList = $master->getStatus();
 // Menampilkan alert berdasarkan status yang diterima melalui parameter GET

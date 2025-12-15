@@ -22,7 +22,7 @@ class MasterData extends Database {
     }
 
     // Method untuk mendapatkan daftar provinsi
-    public function getUsername(){
+    /* public function getUsername(){
         $query = "SELECT id, username FROM users";
         $result = $this->conn->query($query);
         $username = [];
@@ -35,7 +35,7 @@ class MasterData extends Database {
             }
         }
         return $username;
-    }
+    } */
 
 
     // Method untuk input data program studi
@@ -103,7 +103,7 @@ class MasterData extends Database {
     }
 
     // Method untuk input data provinsi
-    public function inputUsers($data){
+/*     public function inputUsers($data){
         $username = $data['username'];
         $pass = $data['pass'];
         $query = "INSERT INTO users (username, pass) VALUES (?, ?)";
@@ -115,10 +115,10 @@ class MasterData extends Database {
         $result = $stmt->execute();
         $stmt->close();
         return $result;
-    }
+    } */
 
     // Method untuk mendapatkan data provinsi berdasarkan id
-    public function getUpdateUsers($id){
+/*     public function getUpdateUsers($id){
         $query = "SELECT * FROM users WHERE id = ?";
         $stmt = $this->conn->prepare($query);
         if(!$stmt){
@@ -138,10 +138,10 @@ class MasterData extends Database {
         }
         $stmt->close();
         return $users;
-    }
+    } */
 
     // Method untuk mengedit data provinsi
-    public function updateUsers($data){
+/*     public function updateUsers($data){
         $id = $data['id'];
         $username = $data['username'];
         $pass = $data['pass'];
@@ -155,9 +155,9 @@ class MasterData extends Database {
         $stmt->close();
         return $result;
     }
-
+ */
     // Method untuk menghapus data provinsi
-    public function deleteUser($id){
+/*     public function deleteUser($id){
         $query = "DELETE FROM users WHERE id = ?";
         $stmt = $this->conn->prepare($query);
         if(!$stmt){
@@ -167,7 +167,7 @@ class MasterData extends Database {
         $result = $stmt->execute();
         $stmt->close();
         return $result;
-    }
+    } */
 
     public function getStatus(){
         return [
@@ -175,6 +175,58 @@ class MasterData extends Database {
             ['name' => 'Completed', 'value' => 'Completed']
         ];
     }
+
+// Tambahkan kode ini di dalam class MasterData di class-master.php
+
+// Method pendukung untuk cek duplikasi username atau email
+public function isUserExists($username, $email){
+    // Menggunakan id_user sebagai kolom primary key
+    $query = "SELECT id_user FROM users WHERE username = ? OR email = ?";
+    $stmt = $this->conn->prepare($query);
+    
+    if(!$stmt){
+        // Error saat prepare statement
+        return false; 
+    }
+    
+    $stmt->bind_param("ss", $username, $email);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $exists = $result->num_rows > 0;
+    $stmt->close();
+    
+    return $exists;
 }
 
+// Method untuk input data pengguna (Registrasi)
+public function inputUsers($data){
+    // HANYA AMBIL username, email, password
+    $username = $data['username'];
+    $email    = $data['email'];
+    $password = $data['password'];
+
+    // Cek apakah username/email sudah ada
+    if ($this->isUserExists($username, $email)) {
+        return "exists"; // Mengembalikan string "exists" jika username/email sudah ada
+    }
+
+    // Menggunakan Prepared Statement untuk INSERT (Wajib Keamanan)
+    // ASUMSI KOLOM: username, email, password
+    $query = "INSERT INTO users (username, email, password) VALUES (?, ?, ?)";
+    $stmt = $this->conn->prepare($query);
+    
+    if(!$stmt){
+        return false;
+    }
+    
+    // Parameter: sss (Semua String)
+    $stmt->bind_param("sss", $username, $email, $password);
+    
+    $result = $stmt->execute();
+    $stmt->close();
+    
+    return $result; // Mengembalikan true/false
+}
+
+}
 ?>

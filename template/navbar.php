@@ -8,7 +8,7 @@
                     <i class="bi bi-list"></i>
                 </a>
             </li>
-            <li class="nav-item d-none d-md-block"><a href="index.php" class="nav-link">Beranda</a></li>
+            <li class="nav-item d-none d-md-block"><a href="home.php" class="nav-link">Beranda</a></li>
         </ul>
 
         <ul class="navbar-nav ms-auto">
