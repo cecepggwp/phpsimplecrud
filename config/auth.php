@@ -1,4 +1,5 @@
 <?php
+session_start();
 // Pastikan file koneksi database disertakan
 include ('db-config.php'); //
 
@@ -37,6 +38,10 @@ $result = $stmt->get_result();
 
 // 5. Cek Hasil
 if ($result->num_rows === 1) {
+    $fetch = $result->fetch_assoc();
+    $_SESSION["id"] = $fetch["id_user"];
+    $_SESSION["user"] = $fetch["username"];
+    $_SESSION["role"] = $fetch["role"];
     // Login berhasil
     header('Location:../home.php');
     exit();

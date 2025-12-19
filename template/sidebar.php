@@ -35,6 +35,9 @@
                         <p>Cari Tugas Kamu</p>
                     </a>
                 </li> -->
+                <?php 
+                if($_SESSION["role"] == 1){
+                ?>
                 <li class="nav-header">MASTER DATA</li>
                 <li class="nav-item">
                     <a href="master-prodi-list.php" class="nav-link">
@@ -42,6 +45,7 @@
                         <p>Kategori Tugas Kamu</p>
                     </a>
                 </li>
+                <?php } ?>
                 <!-- <li class="nav-item">
                     <a href="master-provinsi-list.php" class="nav-link">
                         <i class="nav-icon bi bi-briefcase-fill"></i>

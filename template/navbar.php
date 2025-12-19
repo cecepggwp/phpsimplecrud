@@ -25,6 +25,11 @@
                     <i data-lte-icon="minimize" class="bi bi-fullscreen-exit" style="display: none"></i>
                 </a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="logout.php" role="button" onclick="confirm('Yakin Ingin Logout?');">
+                    <i class="bi bi-box-arrow-left"></i>
+                </a>
+            </li>
 
         </ul>
 

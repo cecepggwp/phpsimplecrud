@@ -1,3 +1,10 @@
+<?php
+
+session_start();
+if(!isset($_SESSION["id"])){
+	header("Location: index.php");
+}
+?>
 <!doctype html>
 <html lang="en">
 	<head>
@@ -37,7 +44,7 @@
 								<div class="card">
 
 									<div class="card-header">
-										<h3 class="card-title">Selamat Datang!</h3>
+										<h3 class="card-title">Selamat Datang <?=$_SESSION['user']?>!</h3>
 										<div class="card-tools">
 											<button type="button" class="btn btn-tool" data-lte-toggle="card-collapse" title="Collapse">
 												<i data-lte-icon="expand" class="bi bi-plus-lg"></i>
