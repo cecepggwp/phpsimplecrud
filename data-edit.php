@@ -11,7 +11,7 @@ $mahasiswa = new Mahasiswa();
 // Mengambil daftar program studi, provinsi, dan status mahasiswa
 $categoryList = $master->getCategories();
 // Mengambil daftar provinsi
-$usernameList = $master->getUsername();
+/* $usernameList = $master->getUsername(); */
 // Mengambil daftar status mahasiswa
 $statusList = $master->getStatus();
 // Mengambil data mahasiswa yang akan diedit berdasarkan id dari parameter GET
