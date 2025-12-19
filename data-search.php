@@ -1,5 +1,9 @@
 <?php
-
+session_start();
+if(!isset($_SESSION["id"])){
+    header("Location: index.php");
+    exit(); // Pastikan menambahkan exit setelah redirect
+}
 include_once 'config/class-mahasiswa.php';
 $mahasiswa = new Mahasiswa();
 $kataKunci = '';

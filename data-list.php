@@ -1,5 +1,9 @@
 <?php
-
+session_start();
+if(!isset($_SESSION["id"])){
+    header("Location: index.php");
+    exit(); // Pastikan menambahkan exit setelah redirect
+}
 include_once 'config/class-mahasiswa.php';
 $mahasiswa = new Mahasiswa();
 // Menampilkan alert berdasarkan status yang diterima melalui parameter GET
@@ -77,7 +81,9 @@ $dataMahasiswa = $mahasiswa->getAllTasks();
 													<th>Deadline</th>
 													<th>Kategori</th>
 													<th class="text-center">Status</th>
+													<?php if ($_SESSION['role'] == "1" || $_SESSION['role'] == "2") { ?>
 													<th class="text-center">Aksi</th>
+													<?php } ?>
 												</tr>
 											</thead>
 											<tbody>
@@ -100,7 +106,12 @@ $dataMahasiswa = $mahasiswa->getAllTasks();
 																<td>'.$mahasiswa['deadline'].'</td>
 																<td>'.$mahasiswa['category'].'</td>
 																<td class="text-center">'.$mahasiswa['status'].'</td>
-																<td class="text-center">
+																<td class="text-center">';
+																if ($_SESSION['role'] == "1" || $_SESSION['role'] == "2") {
+																	echo '<button type="button" class="btn btn-sm btn-warning me-1" onclick="window.location.href=\'data-edit.php?id='.$mahasiswa['id'].'\'"><i class="bi bi-pencil-fill"></i> Edit</button>
+																		  <button type="button" class="btn btn-sm btn-danger" onclick="if(confirm(\'Yakin ingin menghapus data mahasiswa ini?\')){window.location.href=\'proses/proses-delete.php?id='.$mahasiswa['id'].'\'}"><i class="bi bi-trash-fill"></i> Hapus</button>';
+																}
+																'<td class="text-center">
 																	<button type="button" class="btn btn-sm btn-warning me-1" onclick="window.location.href=\'data-edit.php?id='.$mahasiswa['id'].'\'"><i class="bi bi-pencil-fill"></i> Edit</button>
 																	<button type="button" class="btn btn-sm btn-danger" onclick="if(confirm(\'Yakin ingin menghapus data mahasiswa ini?\')){window.location.href=\'proses/proses-delete.php?id='.$mahasiswa['id'].'\'}"><i class="bi bi-trash-fill"></i> Hapus</button>
 																</td>

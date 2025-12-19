@@ -1,5 +1,9 @@
 <?php 
-
+session_start();
+if($_SESSION["role"] == 3){
+    header("Location: index.php");
+    exit(); // Pastikan menambahkan exit setelah redirect
+}
 include_once 'config/class-master.php';
 include_once 'config/class-mahasiswa.php';
 $master = new MasterData();

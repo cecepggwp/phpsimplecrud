@@ -36,16 +36,16 @@
                     </a>
                 </li> -->
                 <?php 
-                if($_SESSION["role"] == 1){
+                if($_SESSION["role"] == "1"){
                 ?>
                 <li class="nav-header">MASTER DATA</li>
                 <li class="nav-item">
                     <a href="master-prodi-list.php" class="nav-link">
                         <i class="nav-icon bi bi-people-fill"></i>
-                        <p>Kategori Tugas Kamu</p>
+                        <p>Kategori Tugas </p>
                     </a>
                 </li>
-                <?php } ?>
+                 <?php } ?>
                 <!-- <li class="nav-item">
                     <a href="master-provinsi-list.php" class="nav-link">
                         <i class="nav-icon bi bi-briefcase-fill"></i>
