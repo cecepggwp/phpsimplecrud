@@ -15,7 +15,7 @@ $password = $_POST['password']; //
 // 1. Kueri dengan Prepared Statements
 // Kami mengambil baris pengguna berdasarkan username dan password.
 // Gunakan placeholder (?) untuk data yang dimasukkan pengguna.
-$sql = "SELECT * FROM users WHERE username = ? AND password = ?"; 
+$sql = "SELECT * FROM tb_users WHERE username = ? AND password = ?"; 
 
 // Inisialisasi statement
 // Perlu diingat bahwa fungsi prepare() adalah method dari objek $conn (mysqli object)

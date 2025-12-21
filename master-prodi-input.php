@@ -1,5 +1,9 @@
 <?php 
-
+session_start();
+if($_SESSION["role"] == 3 ||($_SESSION["role"] == 2)){
+    header("Location: index.php");
+    exit(); // Pastikan menambahkan exit setelah redirect
+}
 // Silakan lihat komentar di file data-input.php untuk penjelasan kode ini, karena struktur dan logikanya serupa.
 if(isset($_GET['status'])){
     if($_GET['status'] == 'failed'){

@@ -7,7 +7,7 @@ class MasterData extends Database {
 
     // Method untuk mendapatkan daftar program studi
     public function getCategories(){
-        $query = "SELECT * FROM categories";
+        $query = "SELECT * FROM tb_categories";
         $result = $this->conn->query($query);
         $categories = [];
         if ($result->num_rows > 0) {
@@ -41,7 +41,7 @@ class MasterData extends Database {
     // Method untuk input data program studi
     public function inputCategories($data){
         $name = $data['name'];
-        $query = "INSERT INTO categories (name) VALUES (?)";
+        $query = "INSERT INTO tb_categories (name) VALUES (?)";
         $stmt = $this->conn->prepare($query);
         if(!$stmt){
             return false;
@@ -54,7 +54,7 @@ class MasterData extends Database {
 
     // Method untuk mendapatkan data program studi berdasarkan kode
     public function getUpdateCategories($id){
-        $query = "SELECT * FROM categories WHERE id = ?";
+        $query = "SELECT * FROM tb_categories WHERE id = ?";
         $stmt = $this->conn->prepare($query);
         if(!$stmt){
             return false;
@@ -78,7 +78,7 @@ class MasterData extends Database {
     public function updateCategories($data){
         $id = $data['id'];
         $name = $data['name'];
-        $query = "UPDATE categories SET name = ? WHERE id = ?";
+        $query = "UPDATE tb_categories SET name = ? WHERE id = ?";
         $stmt = $this->conn->prepare($query);
         if(!$stmt){
             return false;
@@ -91,7 +91,7 @@ class MasterData extends Database {
 
     // Method untuk menghapus data program studi
     public function deleteCategories($id){
-        $query = "DELETE FROM categories WHERE id = ?";
+        $query = "DELETE FROM tb_categories WHERE id = ?";
         $stmt = $this->conn->prepare($query);
         if(!$stmt){
             return false;
@@ -181,7 +181,7 @@ class MasterData extends Database {
 // Method pendukung untuk cek duplikasi username atau email
 public function isUserExists($username, $email){
     // Menggunakan id_user sebagai kolom primary key
-    $query = "SELECT id_user FROM users WHERE username = ? OR email = ?";
+    $query = "SELECT id_user FROM tb_users WHERE username = ? OR email = ?";
     $stmt = $this->conn->prepare($query);
     
     if(!$stmt){
@@ -212,7 +212,7 @@ public function inputUsers($data){
 
     // Menggunakan Prepared Statement untuk INSERT (Wajib Keamanan)
     // ASUMSI KOLOM: username, email, password
-    $query = "INSERT INTO users (username, email, password) VALUES (?, ?, ?)";
+    $query = "INSERT INTO tb_users (username, email, password) VALUES (?, ?, ?)";
     $stmt = $this->conn->prepare($query);
     
     if(!$stmt){

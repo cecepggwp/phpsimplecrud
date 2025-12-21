@@ -1,6 +1,6 @@
 <?php
 session_start();
-if(!isset($_SESSION["id"])){
+if($_SESSION["role"] == 3 ||($_SESSION["role"] == 2)){
     header("Location: index.php");
     exit(); // Pastikan menambahkan exit setelah redirect
 }

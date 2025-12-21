@@ -22,7 +22,7 @@ if(isset($_SESSION["id"])){
 <div class="login-box">
   <div class="card card-outline card-primary">
     <div class="card-header text-center">
-      <a href="../../index2.html" class="h1"><b>Mind</b>Mapel</a>
+      <a href="../../index2.html" class="h1"><b>To-Do</b>List</a>
     </div>
     <div class="card-body">
       <p class="login-box-msg">Login Untuk Memulai!</p>
