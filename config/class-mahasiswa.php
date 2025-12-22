@@ -33,7 +33,7 @@ class Mahasiswa extends Database {
         $query = "SELECT t.id, t.name, t.description, t.deadline, t.status, 
                          c.name AS category_name, t.category_id
                   FROM tasks t
-                  LEFT JOIN categories c ON t.category_id = c.id
+                  LEFT JOIN tb_categories c ON t.category_id = c.id
                   ORDER BY t.status ASC, t.deadline ASC, t.id DESC";
         // Menyiapkan array kosong untuk menyimpan data mahasiswa
         $stmt = $this->conn->prepare($query);

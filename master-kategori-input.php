@@ -1,16 +1,16 @@
 <?php 
 session_start();
-// Proteksi halaman: hanya Admin (Role 1) yang bisa akses
-if($_SESSION["role"] == 3 || ($_SESSION["role"] == 2)){
+if($_SESSION["role"] == 3 ||($_SESSION["role"] == 2)){
     header("Location: index.php");
-    exit();
+    exit(); // Pastikan menambahkan exit setelah redirect
 }
-
+// Silakan lihat komentar di file data-input.php untuk penjelasan kode ini, karena struktur dan logikanya serupa.
 if(isset($_GET['status'])){
     if($_GET['status'] == 'failed'){
-        echo "<script>alert('Gagal menambahkan data Program Studi. Silakan coba lagi.');</script>";
+        echo "<script>alert('Gagal menambahkan data program studi. Silakan coba lagi.');</script>";
     }
 }
+
 ?>
 <!doctype html>
 <html lang="en">
@@ -23,6 +23,7 @@ if(isset($_GET['status'])){
 		<div class="app-wrapper">
 
 			<?php include 'template/navbar.php'; ?>
+
 			<?php include 'template/sidebar.php'; ?>
 
 			<main class="app-main">
@@ -31,12 +32,12 @@ if(isset($_GET['status'])){
 					<div class="container-fluid">
 						<div class="row">
 							<div class="col-sm-6">
-								<h3 class="mb-0">Input Program Studi Baru</h3>
+								<h3 class="mb-0">Input Kategori Tugas Baru</h3>
 							</div>
 							<div class="col-sm-6">
 								<ol class="breadcrumb float-sm-end">
 									<li class="breadcrumb-item"><a href="index.php">Beranda</a></li>
-									<li class="breadcrumb-item active" aria-current="page">Input Prodi Baru</li>
+									<li class="breadcrumb-item active" aria-current="page">Input Kategori Tugas Baru</li>
 								</ol>
 							</div>
 						</div>
@@ -49,17 +50,26 @@ if(isset($_GET['status'])){
 							<div class="col-12">
 								<div class="card">
 									<div class="card-header">
-										<h3 class="card-title">Formulir Program Studi Baru</h3>
+										<h3 class="card-title">Formulir Kategori Tugas Baru</h3>
+										<div class="card-tools">
+											<button type="button" class="btn btn-tool" data-lte-toggle="card-collapse" title="Collapse">
+												<i data-lte-icon="expand" class="bi bi-plus-lg"></i>
+												<i data-lte-icon="collapse" class="bi bi-dash-lg"></i>
+											</button>
+											<button type="button" class="btn btn-tool" data-lte-toggle="card-remove" title="Remove">
+												<i class="bi bi-x-lg"></i>
+											</button>
+										</div>
 									</div>
-                                    <form action="proses/proses-prodi.php?aksi=inputprodi" method="POST">
+                                    <form action="proses/proses-kategori.php?aksi=inputkategori" method="POST">
 									    <div class="card-body">
 											<div class="mb-3">
-												<label for="nm_prodi" class="form-label">Nama Program Studi</label>
-												<input type="text" class="form-control" id="nm_prodi" name="nm_prodi" placeholder="Contoh: Desain Komunikasi Visual" required>
-											</div>
+            									<label for="nm_prodi" class="form-label">Nama Program Studi Baru</label>
+            									<input type="text" class="form-control" id="nm_prodi" name="nm_prodi" placeholder="Masukkan Nama Prodi..." required>
+        									</div>
                                         </div>
 									    <div class="card-footer">
-                                            <button type="button" class="btn btn-danger me-2 float-start" onclick="window.location.href='master-prodi-list.php'">Batal</button>
+										<button type="button" class="btn btn-danger float-start" onclick="window.location.href='master-prodi-list.php'">Batal</button>
                                             <button type="reset" class="btn btn-secondary me-2 float-start">Reset</button>
                                             <button type="submit" class="btn btn-primary float-end">Tambahkan</button>
                                         </div>

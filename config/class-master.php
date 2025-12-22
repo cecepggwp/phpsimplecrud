@@ -228,5 +228,84 @@ public function inputUsers($data){
     return $result; // Mengembalikan true/false
 }
 
+// Method untuk mendapatkan semua daftar prodi
+public function getProdi(){
+    $query = "SELECT * FROM tb_prodi ORDER BY id_prodi DESC";
+    $result = $this->conn->query($query);
+    $prodi = [];
+    if ($result->num_rows > 0) {
+        while($row = $result->fetch_assoc()) {
+            $prodi[] = [
+                'id_prodi' => $row['id_prodi'],
+                'nm_prodi' => $row['nm_prodi']
+            ];
+        }
+    }
+    return $prodi;
+}
+
+// Method untuk input data prodi
+public function inputProdi($data){
+    $nm_prodi = $data['nm_prodi'];
+    $query = "INSERT INTO tb_prodi (nm_prodi) VALUES (?)";
+    $stmt = $this->conn->prepare($query);
+    if(!$stmt){
+        return false;
+    }
+    $stmt->bind_param("s", $nm_prodi);
+    $result = $stmt->execute();
+    $stmt->close();
+    return $result;
+}
+
+// Method untuk mengambil 1 data prodi berdasarkan ID (untuk Edit)
+public function getUpdateProdi($id){
+    $query = "SELECT * FROM tb_prodi WHERE id_prodi = ?";
+    $stmt = $this->conn->prepare($query);
+    if(!$stmt){
+        return false;
+    }
+    $stmt->bind_param("i", $id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $prodi = null;
+    if($result->num_rows > 0){
+        $row = $result->fetch_assoc();
+        $prodi = [
+            'id_prodi' => $row['id_prodi'],
+            'nm_prodi' => $row['nm_prodi']
+        ];
+    }
+    $stmt->close();
+    return $prodi;
+}
+
+// Method untuk mengupdate data prodi
+public function updateProdi($data){
+    $id = $data['id_prodi'];
+    $name = $data['nm_prodi'];
+    $query = "UPDATE tb_prodi SET nm_prodi = ? WHERE id_prodi = ?";
+    $stmt = $this->conn->prepare($query);
+    if(!$stmt){
+        return false;
+    }
+    $stmt->bind_param("si", $name, $id);
+    $result = $stmt->execute();
+    $stmt->close();
+    return $result;
+}
+
+// Method untuk menghapus data prodi
+public function deleteProdi($id){
+    $query = "DELETE FROM tb_prodi WHERE id_prodi = ?";
+    $stmt = $this->conn->prepare($query);
+    if(!$stmt){
+        return false;
+    }
+    $stmt->bind_param("i", $id);
+    $result = $stmt->execute();
+    $stmt->close();
+    return $result;
+}
 }
 ?>
