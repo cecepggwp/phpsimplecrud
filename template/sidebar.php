@@ -29,16 +29,13 @@
                         <p>Lihat Daftar Tugas Kamu</p>
                     </a>
                 </li>
-                <?php 
-                if($_SESSION["role"] == "1"){
-                ?>
+                <!--
                 <li class="nav-item">
                     <a href="data-search.php" class="nav-link">
                         <i class="nav-icon bi bi-search-heart-fill"></i>
                         <p>Cari Tugas Kamu</p>
                     </a>
-                </li>
-                <?php } ?>
+                </li> -->
                 <?php 
                 if($_SESSION["role"] == "1"){
                 ?>
@@ -62,6 +59,27 @@
                 </li>
                  <?php } ?>
                 
+                 <?php 
+                if($_SESSION["role"] == "1"){
+                ?>
+                <li class="nav-item">
+                    <a href="master-mk-list.php" class="nav-link">
+                        <i class="nav-icon bi bi-people-fill"></i>
+                        <p>Data Mata Kuliah</p>
+                    </a>
+                </li>
+                 <?php } ?>
+
+                 <?php 
+                if($_SESSION["role"] == "1"){
+                ?>
+                <li class="nav-item">
+                    <a href="master-user-list.php" class="nav-link">
+                        <i class="nav-icon bi bi-people-fill"></i>
+                        <p>Data User</p>
+                    </a>
+                </li>
+                 <?php } ?>
                 <!-- <li class="nav-item">
                     <a href="master-provinsi-list.php" class="nav-link">
                         <i class="nav-icon bi bi-briefcase-fill"></i>
