@@ -205,15 +205,17 @@ public function inputUsers($data){
     $email        = $data['email'];
     $password     = $data['password']; 
     $nmr_induk    = $data['nmr_induk'];
-    $role         = $data['role']; // Nilainya '3'
+    $role         = $data['role']; 
+    $id_prodi     = $data['id_prodi'];
+    // id_mk berupa ARRAY karena checkbox (bisa pilih banyak)
+    $mk_array     = isset($data['id_mk']) ? $data['id_mk'] : [];
 
-    // Cek duplikasi
+    // Cek duplikasi username/email
     $check = $this->conn->prepare("SELECT id_user FROM tb_users WHERE username = ? OR email = ?");
     $check->bind_param("ss", $username, $email);
     $check->execute();
     if($check->get_result()->num_rows > 0) return "exists";
 
-    // Mulai Transaksi agar jika salah satu gagal, semua dibatalkan
     $this->conn->begin_transaction();
 
     try {
@@ -222,23 +224,141 @@ public function inputUsers($data){
         $stmtUser = $this->conn->prepare($queryUser);
         $stmtUser->bind_param("ssssss", $nama_lengkap, $username, $password, $email, $role, $nmr_induk);
         $stmtUser->execute();
-
-        // Ambil ID User yang baru saja dibuat
         $id_user = $this->conn->insert_id;
 
-        // B. Karena default role adalah '3' (Mahasiswa), langsung masukkan ke tb_mhs
-        $queryMhs = "INSERT INTO tb_mhs (id_user, nim_mhs, nm_mhs) VALUES (?, ?, ?)";
-        $stmtMhs = $this->conn->prepare($queryMhs);
-        $stmtMhs->bind_param("iss", $id_user, $nmr_induk, $nama_lengkap);
-        $stmtMhs->execute();
+        // B. Cek Role untuk Insert Lanjutan
+        if($role == '2'){ // DOSEN
+            // 1. Insert Data Dosen (Tanpa Matkul di tabel tb_dosen)
+            $queryDosen = "INSERT INTO tb_dosen (id_user, nip_dosen, nama_dosen, id_prodi) VALUES (?, ?, ?, ?)";
+            $stmtDosen = $this->conn->prepare($queryDosen);
+            $stmtDosen->bind_param("issi", $id_user, $nmr_induk, $nama_lengkap, $id_prodi);
+            $stmtDosen->execute();
+            $id_dosen = $this->conn->insert_id;
 
-        $this->conn->commit(); // Simpan permanen
+            // 2. Insert Banyak Mata Kuliah ke tb_dosen_matakuliah
+            if(!empty($mk_array) && is_array($mk_array)){
+                // Kita tidak perlu menyebut kolom 'id_dosen_matakuliah' karena itu AUTO_INCREMENT
+                $stmtMK = $this->conn->prepare("INSERT INTO tb_dosen_matakuliah (id_dosen, id_mk) VALUES (?, ?)");
+                foreach($mk_array as $mk_id){
+                    $stmtMK->bind_param("ii", $id_dosen, $mk_id);
+                    $stmtMK->execute();
+                }
+            }
+        
+        } else { // MAHASISWA
+            $queryMhs = "INSERT INTO tb_mhs (id_user, nim_mhs, nm_mhs, id_prodi) VALUES (?, ?, ?, ?)";
+            $stmtMhs = $this->conn->prepare($queryMhs);
+            $stmtMhs->bind_param("issi", $id_user, $nmr_induk, $nama_lengkap, $id_prodi);
+            $stmtMhs->execute();
+        }
+
+        $this->conn->commit(); 
         return true;
     } catch (Exception $e) {
-        $this->conn->rollback(); // Batalkan jika ada error
+        $this->conn->rollback();
         return false;
     }
 }
+
+
+// --- CEK KELENGKAPAN DATA USER (UNTUK ALERT DI HOME) ---
+    // Return: 0 (Lengkap), 1 (Prodi Kosong), 2 (Matkul Kosong)
+    public function checkUserDataStatus($id_user, $role){
+        if($role == '3'){ // Mahasiswa
+            $q = $this->conn->query("SELECT id_prodi FROM tb_mhs WHERE id_user = $id_user");
+            $data = $q->fetch_assoc();
+            if(empty($data['id_prodi'])) return 1; 
+        } 
+        elseif($role == '2'){ // Dosen
+            // 1. Cek Prodi di tabel tb_dosen
+            $q = $this->conn->query("SELECT id_dosen, id_prodi FROM tb_dosen WHERE id_user = $id_user");
+            $data = $q->fetch_assoc();
+            
+            if(!$data || empty($data['id_prodi'])) return 1; // Prodi Kosong
+
+            // 2. Cek apakah sudah punya Matkul di tabel tb_dosen_matakuliah
+            $id_dosen = $data['id_dosen'];
+            $q2 = $this->conn->query("SELECT count(*) as total FROM tb_dosen_matakuliah WHERE id_dosen = $id_dosen");
+            $mkData = $q2->fetch_assoc();
+            
+            if($mkData['total'] == 0) return 2; // Matkul Kosong
+        }
+        return 0; // Aman
+    }
+
+
+    public function updateDosenData($id_user, $id_prodi, $mk_array){
+        $this->conn->begin_transaction();
+        try {
+            // 1. Update Prodi di tabel tb_dosen
+            $this->conn->query("UPDATE tb_dosen SET id_prodi = $id_prodi WHERE id_user = $id_user");
+            
+            // Ambil ID Dosen
+            $q = $this->conn->query("SELECT id_dosen FROM tb_dosen WHERE id_user = $id_user");
+            $dosen = $q->fetch_assoc();
+            $id_dosen = $dosen['id_dosen'];
+
+            // 2. Hapus semua matkul lama (Reset) di tb_dosen_matakuliah
+            // Kita menghapus berdasarkan id_dosen, jadi perubahan nama primary key tidak berpengaruh di sini
+            $this->conn->query("DELETE FROM tb_dosen_matakuliah WHERE id_dosen = $id_dosen");
+
+            // 3. Masukkan matkul baru yang dipilih (Looping)
+            if(!empty($mk_array) && is_array($mk_array)){
+                $stmt = $this->conn->prepare("INSERT INTO tb_dosen_matakuliah (id_dosen, id_mk) VALUES (?, ?)");
+                foreach($mk_array as $mk_id){
+                    $stmt->bind_param("ii", $id_dosen, $mk_id);
+                    $stmt->execute();
+                }
+            }
+            
+            $this->conn->commit();
+            return true;
+        } catch (Exception $e) {
+            $this->conn->rollback();
+            return false;
+        }
+    }
+
+
+
+public function checkUserProdi($id_user, $role){
+    if($role == '3'){
+        // Cek Mahasiswa
+        $query = "SELECT id_prodi FROM tb_mhs WHERE id_user = ?";
+    } elseif($role == '2'){
+        // Cek Dosen
+        $query = "SELECT id_prodi FROM tb_dosen WHERE id_user = ?";
+    } else {
+        return true; // Admin dianggap aman
+    }
+
+    $stmt = $this->conn->prepare($query);
+    $stmt->bind_param("i", $id_user);
+    $stmt->execute();
+    $result = $stmt->get_result()->fetch_assoc();
+
+    // Jika id_prodi NULL atau 0, return false (artinya belum punya prodi)
+    if(empty($result['id_prodi'])){
+        return false;
+    }
+    return true;
+}
+
+// TAMBAHKAN METHOD BARU: Update Prodi User (Dari Home)
+public function updateUserProdi($id_user, $role, $id_prodi){
+    if($role == '3'){
+        $query = "UPDATE tb_mhs SET id_prodi = ? WHERE id_user = ?";
+    } elseif($role == '2'){
+        $query = "UPDATE tb_dosen SET id_prodi = ? WHERE id_user = ?";
+    } else {
+        return false;
+    }
+    
+    $stmt = $this->conn->prepare($query);
+    $stmt->bind_param("ii", $id_prodi, $id_user);
+    return $stmt->execute();
+}
+
 
 // Method untuk mendapatkan semua daftar prodi
 public function getProdi(){
