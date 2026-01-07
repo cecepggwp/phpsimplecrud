@@ -1,26 +1,28 @@
 <?php
 session_start();
-// Pastikan user sudah login
-if(!isset($_SESSION["id"])){
-    header("Location: ../index.php");
-    exit();
-}
+if(!isset($_SESSION["id"])){ header("Location: ../index.php"); exit(); }
 
 include '../config/class-mahasiswa.php';
 $tasklist = new Mahasiswa();
 
+// Tangkap id_matkul (Bisa dari Dosen atau Admin)
+$id_matkul_input = isset($_POST['id_matkul']) && $_POST['id_matkul'] != '' ? $_POST['id_matkul'] : NULL;
+
+// Tangkap target_prodi (Khusus Admin)
+$target_prodi_input = isset($_POST['target_prodi']) ? $_POST['target_prodi'] : NULL;
+
 $datatasklist = [
-    'name' => $_POST['name'],
+    'name'      => $_POST['name'],
     'deskripsi' => $_POST['deskripsi'],
-    'deadline' => $_POST['deadline'],
-    'category' => $_POST['category'],
+    'deadline'  => $_POST['deadline'],
+    'category'  => $_POST['category'],
+    'id_matkul' => $id_matkul_input,      // Tambahkan ini
+    'target_prodi' => $target_prodi_input // Tambahkan ini
 ];
 
-// Mengambil ID User dan Role dari Session
-$user_id   = $_SESSION['id']; // ID User yang login
-$role_user = $_SESSION['role']; // Role User (1, 2, atau 3)
+$user_id   = $_SESSION['id']; 
+$role_user = $_SESSION['role']; 
 
-// Pass user_id dan role ke fungsi
 $input = $tasklist->addTask($datatasklist, $user_id, $role_user);
 
 if($input){

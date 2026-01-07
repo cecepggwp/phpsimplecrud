@@ -11,7 +11,7 @@ if(isset($_SESSION["id"])){
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>AdminLTE 3 | Log in (v2)</title>
+  <title>SIAPPLIST - Teman Kerja Kamu</title>
 
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <link rel="stylesheet" href="AdminLTE-3.2.0/plugins/fontawesome-free/css/all.min.css">
@@ -22,7 +22,7 @@ if(isset($_SESSION["id"])){
 <div class="login-box">
   <div class="card card-outline card-primary">
     <div class="card-header text-center">
-      <a href="../../index2.html" class="h1"><b>To-Do</b>List</a>
+      <a href="../../index2.html" class="h1"><b>SIAPP</b>LIST</a>
     </div>
     <div class="card-body">
       <p class="login-box-msg">Login Untuk Memulai!</p>

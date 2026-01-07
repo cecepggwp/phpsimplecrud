@@ -11,10 +11,9 @@ $master = new MasterData();
 
 $id_user  = $_SESSION['id'];
 $id_prodi = $_POST['id_prodi'];
-// Tangkap Array MK
-$mk_array = isset($_POST['id_mk']) ? $_POST['id_mk'] : [];
 
-$update = $master->updateDosenData($id_user, $id_prodi, $mk_array);
+// Panggil fungsi updateDosenData (yang sekarang cuma butuh 2 parameter)
+$update = $master->updateDosenData($id_user, $id_prodi);
 
 if($update){
     header("Location: ../home.php");

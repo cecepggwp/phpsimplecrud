@@ -12,7 +12,7 @@ $master = new MasterData();
 // Ambil data user berdasarkan ID yang dikirim melalui URL
 $user = $master->getUserById($_GET['id']);
 $dataProdi = $master->getProdi();
-$dataMk = $master->getMk();
+// Tidak butuh $dataMk lagi
 ?>
 <!doctype html>
 <html lang="en">
@@ -72,16 +72,7 @@ $dataMk = $master->getMk();
                                             <?php endforeach; ?>
                                         </select>
                                     </div>
-                                    <div class="mb-3">
-                                        <label>Mata Kuliah Diampu</label>
-                                        <select name="id_mk" class="form-select">
-                                            <option value="">-- Pilih Mata Kuliah --</option>
-                                            <?php foreach($dataMk as $m): ?>
-                                                <option value="<?= $m['id_mk'] ?>"><?= $m['nm_mk'] ?></option>
-                                            <?php endforeach; ?>
-                                        </select>
                                     </div>
-                                </div>
 
                                 <div id="formMhs" style="display: none;" class="border p-4 bg-light rounded">
                                     <h5 class="mb-3 text-success"><i class="bi bi-mortarboard"></i> Data Detail Mahasiswa</h5>
@@ -135,7 +126,6 @@ $dataMk = $master->getMk();
             formMhs.style.display = "none";
         }
     }
-    // Jalankan saat halaman pertama kali dibuka untuk menyesuaikan tampilan dengan role user saat ini
     window.onload = toggleForm;
     </script>
 </body>

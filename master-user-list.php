@@ -59,6 +59,8 @@ $users = $master->getUsers($search);
                 </div>
             </div>
         </main>
+        <?php include 'template/footer.php'; ?>
     </div>
+    <?php include 'template/script.php'; ?>
 </body>
 </html>

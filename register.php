@@ -2,7 +2,6 @@
 include_once 'config/class-master.php';
 $master = new MasterData();
 $prodiList = $master->getProdi(); 
-$mkList = $master->getMk(); 
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -47,7 +46,7 @@ $mkList = $master->getMk();
         </div>
 
         <div class="input-group mb-3">
-            <select name="role" id="roleSelect" class="form-control" onchange="toggleForm()" required>
+            <select name="role" id="roleSelect" class="form-control" required>
                 <option value="3" selected>Daftar Sebagai Mahasiswa</option>
                 <option value="2">Daftar Sebagai Dosen</option>
             </select>
@@ -55,28 +54,13 @@ $mkList = $master->getMk();
         </div>
 
         <div class="input-group mb-3">
-            <select name="id_prodi" id="prodiSelect" class="form-control" onchange="filterMatkul()" required>
+            <select name="id_prodi" id="prodiSelect" class="form-control" required>
                 <option value="" selected disabled>-- Pilih Program Studi --</option>
                 <?php foreach($prodiList as $p): ?>
                     <option value="<?= $p['id_prodi'] ?>"><?= $p['nm_prodi'] ?></option>
                 <?php endforeach; ?>
             </select>
             <div class="input-group-append"><div class="input-group-text"><span class="fas fa-university"></span></div></div>
-        </div>
-
-        <div class="form-group mb-3" id="matkulDiv" style="display:none;">
-            <label>Mata Kuliah Ampuan (Bisa Pilih Banyak):</label>
-            <div class="card p-2" style="max-height: 200px; overflow-y: auto;">
-                <?php foreach($mkList as $m): ?>
-                    <div class="form-check matkul-option" data-prodi="<?= $m['id_prodi'] ?>">
-                        <input class="form-check-input" type="checkbox" name="id_mk[]" value="<?= $m['id_mk'] ?>" id="mk_<?= $m['id_mk'] ?>">
-                        <label class="form-check-label" for="mk_<?= $m['id_mk'] ?>">
-                            <?= $m['nm_mk'] ?>
-                        </label>
-                    </div>
-                <?php endforeach; ?>
-                <div id="noMatkulMsg" class="text-muted small" style="display:none;">Pilih Prodi terlebih dahulu.</div>
-            </div>
         </div>
 
         <div class="input-group mb-3">
@@ -120,50 +104,5 @@ $mkList = $master->getMk();
 <script src="AdminLTE-3.2.0/plugins/jquery/jquery.min.js"></script>
 <script src="AdminLTE-3.2.0/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="AdminLTE-3.2.0/dist/js/adminlte.min.js"></script>
-
-<script>
-    function toggleForm() {
-        var role = document.getElementById("roleSelect").value;
-        var matkulDiv = document.getElementById("matkulDiv");
-        if(role == "2") { 
-            matkulDiv.style.display = "block";
-            filterMatkul(); // Refresh filter
-        } else {
-            matkulDiv.style.display = "none";
-        }
-    }
-
-    function filterMatkul() {
-        var selectedProdi = document.getElementById("prodiSelect").value;
-        var options = document.getElementsByClassName("matkul-option");
-        var visibleCount = 0;
-
-        for (var i = 0; i < options.length; i++) {
-            var dataProdi = options[i].getAttribute("data-prodi");
-            var checkbox = options[i].querySelector("input[type=checkbox]");
-
-            if (selectedProdi && dataProdi == selectedProdi) {
-                options[i].style.display = "block";
-                visibleCount++;
-            } else {
-                options[i].style.display = "none";
-                checkbox.checked = false; // Uncheck jika disembunyikan
-            }
-        }
-        
-        var msg = document.getElementById("noMatkulMsg");
-        if(visibleCount === 0 && selectedProdi) {
-             msg.style.display = "block";
-             msg.innerText = "Tidak ada mata kuliah di prodi ini.";
-        } else if (!selectedProdi) {
-             msg.style.display = "block";
-             msg.innerText = "Pilih Prodi untuk melihat Mata Kuliah.";
-        } else {
-             msg.style.display = "none";
-        }
-    }
-    
-    window.onload = function() { toggleForm(); };
-</script>
 </body>
 </html>

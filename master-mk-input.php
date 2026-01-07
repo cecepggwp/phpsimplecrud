@@ -39,6 +39,8 @@ $dataProdi = $master->getProdi(); // Ambil daftar prodi untuk dropdown
                 </div>
             </div>
         </main>
+        <?php include 'template/footer.php'; ?>
     </div>
+    <?php include 'template/script.php'; ?>
 </body>
 </html>

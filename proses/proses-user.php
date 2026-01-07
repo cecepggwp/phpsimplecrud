@@ -28,14 +28,13 @@ if (isset($_GET['aksi'])) {
             $data['nip_nim']  = $_POST['nip'];
             $data['nama']     = $_POST['nama_dosen'];
             $data['id_prodi'] = $_POST['id_prodi_dosen'];
-            $data['id_mk']    = $_POST['id_mk']; // Dosen memiliki ID Mata Kuliah
+            // id_mk sudah dihapus
 
         } elseif ($role == '3') { 
             // Jika dipilih sebagai MAHASISWA
             $data['nip_nim']  = $_POST['nim'];
             $data['nama']     = $_POST['nama_mhs'];
             $data['id_prodi'] = $_POST['id_prodi_mhs'];
-            $data['id_mk']    = null; // Mahasiswa tidak mengisi id_mk di tabel detail
         }
 
         // 4. Panggil method updateRoleAndDetail di class-master.php
@@ -50,19 +49,6 @@ if (isset($_GET['aksi'])) {
             header("Location: ../master-user-set-role.php?id=$id_user&status=failed");
             exit();
         }
-
     } 
-    
-    // AKSI: DELETE USER (Opsional, jika Anda butuh fitur hapus user)
-    elseif ($_GET['aksi'] == 'deleteuser') {
-        $id = $_GET['id'];
-        // Anda bisa menambahkan method deleteUser di class-master.php jika diperlukan
-        // $delete = $master->deleteUser($id);
-        // header("Location: ../master-user-list.php?status=deleted");
-    }
-
-} else {
-    // Jika tidak ada aksi, kembalikan ke halaman daftar
-    header("Location: ../master-user-list.php");
-    exit();
 }
+?>

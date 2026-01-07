@@ -3,7 +3,7 @@
     <div class="sidebar-brand">
         <a href="home.php" class="brand-link">
             <img src="assets/img/logo.png" alt="AdminLTE Logo" class="brand-image" />
-            <span class="brand-text">To-Do List</span>
+            <span class="brand-text">SIAPPLIST</span>
         </a>
     </div>
 
@@ -29,6 +29,12 @@
                         <p>Lihat Daftar Tugas Kamu</p>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="calendar.php" class="nav-link">
+                        <i class="nav-icon bi bi-calendar-check-fill"></i>
+                        <p>Kalender Akademik</p>
+                    </a>
+                </li>
                 <!--
                 <li class="nav-item">
                     <a href="data-search.php" class="nav-link">
@@ -39,6 +45,15 @@
                 <?php 
                 if($_SESSION["role"] == "1"){
                 ?>
+
+                <li class="nav-header">MONITORING</li>
+                <li class="nav-item">
+                    <a href="admin-monitoring.php" class="nav-link">
+                        <i class="nav-icon bi bi-eye-fill"></i>
+                        <p>Monitoring Semua Tugas</p>
+                    </a>
+                </li>
+
                 <li class="nav-header">MASTER DATA</li>
                 <li class="nav-item">
                     <a href="master-kategori-list.php" class="nav-link">
